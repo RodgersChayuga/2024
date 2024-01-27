@@ -1,70 +1,118 @@
-# Getting Started with Create React App
+# How to comditionally render views
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction:
 
-## Available Scripts
+"Hey React enthusiasts! Today, we're tackling the important topic of conditional rendering, and I'll guide you through two different approaches using examples from my codebase. We've got a classic ternary operator approach and a more elegant object mapping technique."
 
-In the project directory, you can run:
+### Section 1: Difficult to Read and Maintain (Ternary Operator)
 
-### `npm start`
+#### Code Example 1:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```jsx
+"Let's start by examining a common but less readable approach using ternary operators.
+Pay attention to how the code structure might become confusing."
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+import React from "react";
+import { AdminView, ContributorView, GuestView } from "./components";
 
-### `npm test`
+export const App = ({ role }) => {
+  return (
+    <div>
+      {role === "Admin" ? (
+        <AdminView />
+      ) : role === "Giest" ? (
+        <GuestView />
+      ) : (
+        <ContributorView />
+      )}
+    </div>
+  );
+};
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
 
-### `npm run build`
+#### Explanation:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+In this example, we're using nested ternary operators to conditionally render different views
+based on the user's role. While this works, it can be challenging to read and maintain,
+especially as our application scales.
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Section 2: More Readable and Maintainable (Object Mapping)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Code Example 2:
 
-### `npm run eject`
+```jsx
+"Now, let's explore a cleaner and more maintainable approach using object mapping.
+This method enhances code readability and simplifies the logic."
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+import React from "react";
+import { AdminView, ContributorView, GuestView } from "./components";
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const RolesViews = {
+  GUEST: GuestView,
+  ADMIN: AdminView,
+  CONTRIBUTOR: ContributorView,
+};
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+export const App = ({ role }) => {
+  const CurrentView = RolesViews[role] || DefaultView;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  return (
+    <div>
+      <CurrentView/>
+    </div>
+  );
+};
+```
 
-## Learn More
+### Explanation:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```"In this updated example, we've leveraged an object mapping technique. By associating roles with
+their respective components, the code becomes more readable and maintainable.
+This approach allows us to easily extend our application without the need for nested conditionals."
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### Let's explain more:
 
-### Code Splitting
+```
+imagine you have a special box called "App" that can show different things based on who you are.
+Sometimes it shows a special place for an "Admin" (someone in charge), sometimes a place for a "Guest"
+(someone visiting), and sometimes a place for a "Contributor" (someone helping).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Now, instead of saying, "Show this for an Admin, show that for a Guest," we have a magical list
+that knows exactly what to show for each type of person. The list is like this:
 
-### Analyzing the Bundle Size
+1. For a _"Guest,"_ show something called "GuestView."
+2. For an _"Admin,"_ show something called "AdminView."
+3. For a _"Contributor,"_ show something called "ContributorView."
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Now, every time you come to your special box, you just need to say who you are, and the box knows
+what to show you! If you are a "Guest," it shows the "GuestView"; if you are an "Admin," it shows
+the "AdminView"; and if you are a "Contributor," it shows the "ContributorView."
 
-### Making a Progressive Web App
+But what if someone says they are something else, like a "Superhero" or a "Ninja"? To be safe,
+we also have a special place called "DefaultView" that shows something when we are not sure what to show.
+So, if someone says they are a "Superhero," the box will show the "DefaultView" because it doesn't
+have a special place for superheroes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+That's it! It's like a magical box that knows exactly what to show for different people, and it even
+has a backup plan for when it's not sure. Cool, right?
+```
 
-### Advanced Configuration
+### Conclusion:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+"To wrap it up, we've covered two ways to conditionally render views in React. The first, a classic
+ternary operator method, which works but can become convoluted. The second, a more elegant object
+mapping technique, providing improved readability and maintainability."
+```
 
-### Deployment
+### Closing:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+"Thanks for joining me in this tutorial! If you found it helpful, don't forget to like, share, and
+subscribe for more React tips. If you have questions or other techniques you'd like to share,
+drop them in the comments below. Happy coding, and I'll catch you in the next video!"
+```
