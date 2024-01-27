@@ -1,4 +1,4 @@
-# How to comditionally render views
+# How to conditionally render views
 
 ## Introduction:
 
